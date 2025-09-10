@@ -1,27 +1,13 @@
 {
-  "name": "serenity-server",
-  "version": "1.0.0",
   "dependencies": {
     "cors": "^2.8.5",
-    "dotenv": "^10.0.0",
-    "express": "^4.17.1",
-    "jsonwebtoken": "^9.0.2",
-    "mongoose": "^6.0.0",
+    "dotenv": "^17.2.2",
+    "express": "^5.1.0",
+    "mongoose": "^8.18.1",
     "passport": "^0.7.0",
-    "passport-google-oauth20": "^2.0.0",
     "passport-linkedin-oauth2": "^2.0.0"
   },
-  "scripts": {
-    "start": "node server.js",
-    "server": "json-server --watch db.json --port 5000"
-  },
   "devDependencies": {
-    "concurrently": "^9.2.0"
-  },
-  "description": "",
-  "main": "server.js",
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs"
+    "nodemon": "^3.1.10"
+  }
 }
