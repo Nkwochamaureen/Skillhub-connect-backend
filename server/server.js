@@ -9,7 +9,10 @@ const session = require('express-session');
 const app = express();
 
 // Middleware
-app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
+app.use(cors({
+  origin: 'http://localhost:3000',
+  credentials: true // Allow cookies/session
+}));
 app.use(express.json());
 app.use(session({ secret: 'your-secret-key', resave: false, saveUninitialized: false }));
 app.use(passport.initialize());
@@ -39,17 +42,17 @@ passport.use(new LinkedInStrategy({
   try {
     let user = await User.findOne({ linkedinId: profile.id });
     if (!user) {
-        user = await new User({
-          linkedinId: profile.id,
-          name: profile.displayName,
-          email: profile.emails[0].value
-        }).save();
-      }
-      return done(null, user);
-    } catch (err) {
-      return done(err);
+      user = await new User({
+        linkedinId: profile.id,
+        name: profile.displayName,
+        email: profile.emails[0].value
+      }).save();
     }
-  }));
+    return done(null, user);
+  } catch (err) {
+    return done(err);
+  }
+}));
 
 passport.serializeUser((user, done) => done(null, user._id));
 passport.deserializeUser(async (id, done) => {
