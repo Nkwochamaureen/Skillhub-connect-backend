@@ -1,4 +1,9 @@
 require('dotenv').config();
+console.log('Loaded env:', {
+  CALLBACK_URL: process.env.CALLBACK_URL,
+  LINKEDIN_CLIENT_ID: process.env.LINKEDIN_CLIENT_ID,
+  LINKEDIN_CLIENT_SECRET: process.env.LINKEDIN_CLIENT_SECRET
+});
 const express = require('express');
 const mongoose = require('mongoose');
 const passport = require('passport');
