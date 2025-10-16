@@ -4,7 +4,7 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const passport = require('passport');
-const LinkedInStrategy = require('passport-linkedin-oauth2').Strategy;
+const LinkedInStrategy = require('passport-openidconnect').Strategy;
 const session = require('express-session');
 const cors = require('cors');
 const User = require('./user'); // Correctly require the User model
@@ -76,7 +76,7 @@ app.get('/auth/linkedin', passport.authenticate('linkedin'));
 app.get('/auth/linkedin/callback',
     passport.authenticate('linkedin', { failureRedirect: 'http://localhost:3000' }),
     (req, res) => {
-        res.redirect('http://localhost:3000/?state=success');
+        res.redirect('http://localhost:3000/dashboard');
     }
 );
 
@@ -113,7 +113,7 @@ app.get('/auth/linkedin/callback',
   passport.authenticate('linkedin', { failureRedirect: 'http://localhost:3000' }), // Redirect to frontend on failure
   (req, res) => {
     // On successful authentication, redirect back to the frontend with a success flag
-    res.redirect('http://localhost:3000/?state=success');
+    res.redirect('http://localhost:3001/?Dashboard');
   }
 );
 
