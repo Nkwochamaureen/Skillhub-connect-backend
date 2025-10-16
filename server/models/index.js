@@ -4,7 +4,6 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const passport = require('passport');
-const LinkedInStrategy = require('passport-openidconnect').Strategy;
 const session = require('express-session');
 const cors = require('cors');
 const User = require('./user'); // Correctly require the User model
@@ -73,13 +72,8 @@ app.get('/auth/linkedin', passport.authenticate('linkedin'));
 
 
 // --- CHANGE #3: Update your callback route's name ---
-app.get('/auth/linkedin/callback',
-    passport.authenticate('linkedin', { failureRedirect: 'http://localhost:3000' }),
-    (req, res) => {
-        res.redirect('http://localhost:3000/dashboard');
-    }
-);
-
+// --- CHANGE #3: Update your callback route's name ---
+// (Removed duplicate callback route. See below for the unified handler.)
 // ... (Your /api/user route and app.listen remain exactly the same) ...
 
 // Store user ID in session
@@ -109,14 +103,14 @@ app.get('/auth/linkedin',
 );
 
 // The callback route that LinkedIn redirects to after authentication
+// The callback route that LinkedIn redirects to after authentication
 app.get('/auth/linkedin/callback',
   passport.authenticate('linkedin', { failureRedirect: 'http://localhost:3000' }), // Redirect to frontend on failure
   (req, res) => {
-    // On successful authentication, redirect back to the frontend with a success flag
-    res.redirect('http://localhost:3001/?Dashboard');
+    // On successful authentication, redirect back to the frontend dashboard
+    res.redirect('http://localhost:3000/dashboard');
   }
 );
-
 // Route for the frontend to check if a user is logged in and get their data
 app.get('/api/user', (req, res) => {
   if (req.user) {
